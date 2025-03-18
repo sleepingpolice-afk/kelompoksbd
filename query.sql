@@ -33,7 +33,7 @@ CREATE TABLE keranjang_belanja (
 CREATE TABLE pesanan (
     id_pesanan SERIAL PRIMARY KEY,
     id_user INT,
-    total_harga DECIMAL(10, 2),
+    total_harga BIGINT CHECK(total_harga >= 0),
     tanggal_pesanan TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status status_pesanan DEFAULT 'Menunggu Pembayaran',
     FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
@@ -43,8 +43,8 @@ CREATE TABLE rincian_pesanan (
     id_rincian SERIAL PRIMARY KEY,
     id_pesanan INT,
     id_produk INT,
-    jumlah INT,
-    harga DECIMAL(10, 2),
+    jumlah INT CHECK(jumlah >= 0),
+    harga BIGINT CHECK(harga >= 0),
     FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan) ON DELETE CASCADE,
     FOREIGN KEY (id_produk) REFERENCES produk(id_produk) ON DELETE CASCADE
 );
@@ -53,8 +53,8 @@ CREATE TABLE pembayaran (
     id_pembayaran SERIAL PRIMARY KEY,
     id_pesanan INT,
     metode_pembayaran methods DEFAULT 'Transfer Bank',
-    jumlah DECIMAL(10, 2),
+    jumlah BIGINT CHECK(jumlah >= 0),
     status status_pembayaran DEFAULT 'Menunggu Konfirmasi',
-    tanggal_pembayaran TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    tanggal_pembayaran TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan) ON DELETE CASCADE
 );
