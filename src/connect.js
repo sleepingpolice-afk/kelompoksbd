@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const pool = new Pool({
-    connectionString : process.env.PG_CONNECTION_STRING,
+    connectionString : process.env.CONNECTIONSTRING,
   ssl: {
     rejectUnauthorized: false,
   },
