@@ -21,15 +21,6 @@ CREATE TABLE users (
     no_telepon VARCHAR(15)
 );
 
-CREATE TABLE keranjang_belanja (
-    id_keranjang SERIAL PRIMARY KEY,
-    id_user BIGINT,
-    id_produk INT,
-    jumlah INT CHECK(jumlah >= 0),
-    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE,
-    FOREIGN KEY (id_produk) REFERENCES produk(id_produk) ON DELETE CASCADE
-);
-
 CREATE TABLE pesanan (
     id_pesanan SERIAL PRIMARY KEY,
     id_user INT,
@@ -47,14 +38,4 @@ CREATE TABLE rincian_pesanan (
     harga BIGINT CHECK(harga >= 0),
     FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan) ON DELETE CASCADE,
     FOREIGN KEY (id_produk) REFERENCES produk(id_produk) ON DELETE CASCADE
-);
-
-CREATE TABLE pembayaran (
-    id_pembayaran SERIAL PRIMARY KEY,
-    id_pesanan INT,
-    metode_pembayaran methods DEFAULT 'Transfer Bank',
-    jumlah BIGINT CHECK(jumlah >= 0),
-    status status_pembayaran DEFAULT 'Menunggu Konfirmasi',
-    tanggal_pembayaran TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan) ON DELETE CASCADE
 );
